@@ -4,22 +4,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eltiempoes.R;
+import com.eltiempoes.rest.eltiempoAPI;
 import com.eltiempoes.rest.models.Ciudade;
 import com.eltiempoes.rest.models.Example;
 import com.eltiempoes.rest.models.Provincia;
 
 import java.util.List;
 
-public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHolder> {
-    private List<Ciudade> datos;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-    public EltiempoAdapter(List<Ciudade> datos){
+public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHolder> {
+    private List<Provincia> datos;
+
+
+    public EltiempoAdapter(List<Provincia> datos){
         this.datos = datos;
     }
 
@@ -32,9 +38,17 @@ public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.ciudad.setText(datos.get(position).getNameProvince());
-        holder.tMax.setText(datos.get(position).getTemperatures().getMax());
-        holder.tMin.setText(datos.get(position).getTemperatures().getMin());
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.e("Prueba", "Boton presionado");
+                eltiempoAPI.getInstance()
+                        .getProv(datos.get(position).getCodprov())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(x -> Log.e("Prueba",x.getTitle()));
+            }
+        });
+        holder.provincia.setText(datos.get(position).getNombreProvincia());
     }
 
     @Override
@@ -44,15 +58,14 @@ public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHo
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView ciudad;
-        private TextView tMax;
-        private TextView tMin;
+        private TextView provincia;
+        private Button button;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ciudad = itemView.findViewById(R.id.ciudad);
-            tMax = itemView.findViewById(R.id.tMax);
-            tMin = itemView.findViewById(R.id.tMin);
+            button = itemView.findViewById(R.id.provincia);
+            provincia = itemView.findViewById(R.id.provincia);
+
         }
     }
 }
