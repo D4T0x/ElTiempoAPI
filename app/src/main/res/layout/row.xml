@@ -7,8 +7,10 @@
     <Button
         android:id="@+id/provincia"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-        //android:onClick="sendMessage"
-
+        android:layout_height="match_parent"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
 
 </RelativeLayout>

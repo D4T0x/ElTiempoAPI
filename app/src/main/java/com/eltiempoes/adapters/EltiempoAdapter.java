@@ -38,6 +38,7 @@ public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.e("Prueba", "Boton presionado");
@@ -46,9 +47,12 @@ public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHo
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(x -> Log.e("Prueba",x.getTitle()));
+                Log.e("Numero", ""+holder.provincia.getId());
             }
         });
         holder.provincia.setText(datos.get(position).getNombreProvincia());
+        holder.provincia.setId(Integer.parseInt(datos.get(position).getCodprov()));
+
     }
 
     @Override

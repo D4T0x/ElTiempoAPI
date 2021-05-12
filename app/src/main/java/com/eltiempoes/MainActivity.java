@@ -1,14 +1,19 @@
 package com.eltiempoes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.eltiempoes.adapters.EltiempoAdapter;
+import com.eltiempoes.fragments.FragmentDetallesProvincia;
+import com.eltiempoes.fragments.FragmentListaProvincias;
 import com.eltiempoes.rest.Eltiempo;
 import com.eltiempoes.rest.eltiempoAPI;
 import com.eltiempoes.rest.models.Ciudade;
@@ -29,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private List<Provincia> datos = new ArrayList<>();
     private EltiempoAdapter adapter;
 
+    FragmentTransaction transaction;
+    Fragment fragmentListaProvincias, fragmentDetallesProvincia;
+//    FragmentListaProvincias fragmentListaProvincias;
+//    FragmentDetallesProvincia fragmentDetallesProvincia;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,32 +46,45 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        RecyclerView lista = (RecyclerView) findViewById(R.id.lista);
+        fragmentListaProvincias = new FragmentListaProvincias();
+        fragmentDetallesProvincia = new FragmentDetallesProvincia();
 
-        adapter = new EltiempoAdapter(datos);
-        lista.setLayoutManager(new LinearLayoutManager(this));
-        lista.setAdapter(adapter);
-        downloadData();
+        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragments, fragmentListaProvincias).commit();
+
+
+//        RecyclerView lista = (RecyclerView) findViewById(R.id.lista);
+//
+//        adapter = new EltiempoAdapter(datos);
+//        lista.setLayoutManager(new LinearLayoutManager(this));
+//        lista.setAdapter(adapter);
+//        downloadData();
+
+        /*
+        Button btn = (Button) findViewById(R.id.provincia);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+         */
 
 
 
     }
 
-    public void sendMessage(View view){
-
-        //.subscribe(x -> Log.e("Prueba",x.getTitle()));
 
 
-    }
 
-    private void downloadData(){
-        eltiempoAPI.getInstance()
-                .getHome()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMapIterable(x -> x.getProvincias())
-                .map(x -> datos.add(x))
-                .subscribe( x -> adapter.notifyDataSetChanged());
-
-    }
+//    private void downloadData(){
+//        eltiempoAPI.getInstance()
+//                .getHome()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .flatMapIterable(x -> x.getProvincias())
+//                .map(x -> datos.add(x))
+//                .subscribe( x -> adapter.notifyDataSetChanged());
+//
+//    }
 }
