@@ -30,7 +30,7 @@ import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    public static String id;
     private List<Provincia> datos = new ArrayList<>();
     private EltiempoAdapter adapter;
 
@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.contenedorFragments, fragmentDetallesProvincia).commit();
         transaction.addToBackStack(null);
         Log.e("Estas bien", ""+view.getId());
+        String a = Integer.toString(view.getId());
+        if(a.length()==1){
+            id = "0"+a;
+        }else id = a;
 
     }
 

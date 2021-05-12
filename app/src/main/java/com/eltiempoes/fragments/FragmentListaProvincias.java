@@ -1,5 +1,6 @@
 package com.eltiempoes.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -67,4 +68,6 @@ public class FragmentListaProvincias extends Fragment {
                 .subscribe( x -> adapter.notifyDataSetChanged());
 
     }
+
+
 }
