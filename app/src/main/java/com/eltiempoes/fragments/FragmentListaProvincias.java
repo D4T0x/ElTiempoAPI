@@ -32,8 +32,7 @@ public class FragmentListaProvincias extends Fragment {
 
     private List<Provincia> datos = new ArrayList<>();
     private EltiempoAdapter adapter;
-
-    RecyclerView recyclerProvincias;
+    private RecyclerView recyclerProvincias;
 
 
     @Override
@@ -50,6 +49,12 @@ public class FragmentListaProvincias extends Fragment {
         downloadData();
 
         return vista;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     private void downloadData(){

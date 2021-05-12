@@ -11,6 +11,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:onClick="onClick"
         />
 
 </RelativeLayout>

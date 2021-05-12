@@ -52,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragments, fragmentListaProvincias).commit();
 
 
+//        Button button = (Button) findViewById(R.id.provincia);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("Estas bien", "muy bien");
+//            }
+//        });
+
 //        RecyclerView lista = (RecyclerView) findViewById(R.id.lista);
 //
 //        adapter = new EltiempoAdapter(datos);
@@ -71,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
          */
 
 
+
+    }
+
+    public void onClick(View view){
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.contenedorFragments, fragmentDetallesProvincia).commit();
+        transaction.addToBackStack(null);
+        Log.e("Estas bien", ""+view.getId());
 
     }
 
