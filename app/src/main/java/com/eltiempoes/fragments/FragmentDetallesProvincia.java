@@ -1,6 +1,5 @@
 package com.eltiempoes.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.eltiempoes.MainActivity;
-import com.eltiempoes.R;
 import com.eltiempoes.rest.models.Provincia;
 
 import java.util.List;
@@ -33,8 +31,6 @@ public class FragmentDetallesProvincia extends Fragment {
     public FragmentDetallesProvincia() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,16 +55,21 @@ public class FragmentDetallesProvincia extends Fragment {
     }
 
     private void downloadData(TextView text) {
+    try{
+        eltiempoAPI.getInstance()
+                .getProv(MainActivity.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(x -> text.setText(x.getTitle()+
+                        "\n\nHoy:\n"+x.getToday().getP()+
+                        "\n\nMañana:\n"+x.getToday().getP()+
+                        "\n\n"+imprimeCiudades(x.getCiudades())
+                ));
+    } catch (Exception e) {
+        Log.e("Error: ","En downloadData(TextView text)");
+        e.printStackTrace();
+    }
 
-                eltiempoAPI.getInstance()
-                        .getProv(MainActivity.id)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(x -> text.setText(x.getTitle()+
-                                "\n\nHoy:\n"+x.getToday().getP()+
-                                "\n\nMañana:\n"+x.getToday().getP()+
-                                "\n\n"+imprimeCiudades(x.getCiudades())
-                        ));
 
     }
 

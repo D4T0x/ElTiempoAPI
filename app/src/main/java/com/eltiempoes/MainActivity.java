@@ -36,50 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentTransaction transaction;
     Fragment fragmentListaProvincias, fragmentDetallesProvincia;
-//    FragmentListaProvincias fragmentListaProvincias;
-//    FragmentDetallesProvincia fragmentDetallesProvincia;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         fragmentListaProvincias = new FragmentListaProvincias();
         fragmentDetallesProvincia = new FragmentDetallesProvincia();
 
         getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragments, fragmentListaProvincias).commit();
-
-
-//        Button button = (Button) findViewById(R.id.provincia);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e("Estas bien", "muy bien");
-//            }
-//        });
-
-//        RecyclerView lista = (RecyclerView) findViewById(R.id.lista);
-//
-//        adapter = new EltiempoAdapter(datos);
-//        lista.setLayoutManager(new LinearLayoutManager(this));
-//        lista.setAdapter(adapter);
-//        downloadData();
-
-        /*
-        Button btn = (Button) findViewById(R.id.provincia);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-         */
-
-
-
     }
 
     public void onClick(View view){
@@ -93,18 +58,4 @@ public class MainActivity extends AppCompatActivity {
         }else id = a;
 
     }
-
-
-
-
-//    private void downloadData(){
-//        eltiempoAPI.getInstance()
-//                .getHome()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .flatMapIterable(x -> x.getProvincias())
-//                .map(x -> datos.add(x))
-//                .subscribe( x -> adapter.notifyDataSetChanged());
-//
-//    }
 }
