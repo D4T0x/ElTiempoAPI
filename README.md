@@ -2,7 +2,7 @@
 
 ![Demo](https://github.com/D4T0x/ElTiempoAPI/blob/main/Demo.gif)
 
-El TIempoEs es una aplicación que nos permite ver la información del tiempo en las distintas provincias de España, tomando los datos de [el-tiempo.net](https://www.el-tiempo.net/api), se ha definido una clase que utiliza el patron Singelton para generar una instancia de **Retrofit2**:
+El TiempoEs es una aplicación que nos permite ver la información del tiempo en las distintas provincias de España, tomando los datos de [el-tiempo.net](https://www.el-tiempo.net/api), se ha definido una clase que utiliza el patron Singelton para generar una instancia de **Retrofit2**:
 
 ~~~java
 public class eltiempoAPI {
