@@ -306,7 +306,7 @@ public interface Eltiempo {
 ~~~
 Cómo podemos observar se implementan los dos endpoints mencionados.
 
-### IU
+### IU:
 ##### Se han definido dos fragments para gestionar la interfaz
 
 ##### Main activity:
@@ -525,4 +525,4 @@ public class FragmentDetallesProvincia extends Fragment {
 }
 ~~~
 
-Como mejoras pendientes quedaría dar un aspecto más amigable a la Interfaz de Usuario, implementar una vista entre medias de la carga de los datos (popup de carga o similar).
+Como mejoras pendientes quedaría dar un aspecto más amigable a la Interfaz de Usuario e implementar una vista entre medias de la carga de los datos (popup de carga o similar).
