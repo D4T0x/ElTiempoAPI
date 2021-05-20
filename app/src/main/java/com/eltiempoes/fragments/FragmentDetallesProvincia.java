@@ -1,10 +1,6 @@
 package com.eltiempoes.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -13,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.eltiempoes.MainActivity;
+import com.eltiempoes.rest.eltiempoAPI;
 import com.eltiempoes.rest.models.Provincia;
+import com.eltiempoes.rest.models.Provincias.Ciudade;
 
 import java.util.List;
-import com.eltiempoes.rest.eltiempoAPI;
-import com.eltiempoes.rest.models.Provincias.Ciudade;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
