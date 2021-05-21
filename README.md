@@ -2,33 +2,30 @@
 
 ![Demo](https://github.com/D4T0x/ElTiempoAPI/blob/main/Demo.gif)
 
-El TiempoEs es una aplicación que nos permite ver la información del tiempo en las distintas provincias de España, tomando los datos de [el-tiempo.net](https://www.el-tiempo.net/api), se ha definido una clase que utiliza el patron Singelton para generar una instancia de **Retrofit2**:
+El **TiempoEs** es una aplicación que nos permite ver la información del tiempo en las distintas provincias de España, tomando los datos de [el-tiempo.net](https://www.el-tiempo.net/api).
 
-~~~java
-public class eltiempoAPI {
-    private static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://www.el-tiempo.net/api/json/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build();
+## Dependencias:
 
-    private static Eltiempo service = retrofit.create(Eltiempo.class);
-
-    public static synchronized Eltiempo getInstance() {
-        if (service == null)
-            service = retrofit.create(Eltiempo.class);
-        return service;
-    }
-}
-~~~
-##### Dependencias
 ~~~java
 implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+implementation 'com.google.code.gson:gson:2.8.6'
+implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
 implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
 ~~~
-La Interfaz que se ha creado para hacer las llamadas a los endpoints, utiliza las extensiones reactivas **RxJava3** con el uso de la clase *Observable* y **Retrofit2**, los endpoints utilizados son los siguientes:
+- **Retrofit2:** Se encarga de realizar las peticiones HTTP.
+- **GSON:** Se encarga de ***parsear*** el *.json* recibido.
+- **Converter-GSON:** Enlace entre el *GSON* con *Retrofit*
+- **RxJava:**  Extensión reactiva para java.
+- **RxAndroid:** Extensión reactiva para android, permite el uso de operaciones asíncronas con el uso de objetos *Observable*
+  - **AndroidSchedulers:** Permite el acceso al *MainThread*
+- **Adapter-RxJava:** Enlace entre *RxJava* y *Retrofit*.
+
+## API:
+
+Se ha utilizado la API de la web [el-tiempo.net](https://www.el-tiempo.net/api), utilizando los siguientes *endpoints* :
+
 - [/home](https://www.el-tiempo.net/api/json/v2/home)
     - Utilizando el método **GET**.
 ~~~json
@@ -200,10 +197,10 @@ La Interfaz que se ha creado para hacer las llamadas a los endpoints, utiliza la
    "keywords":"Previsi\u00f3n, meteorol\u00f3gica, tiempo, Espa\u00f1a, municipios, previsi\u00f3n del tiempo, previsi\u00f3n meteorol\u00f3gica"
 }
 ~~~
-###### Este JSON ha sido recortado para no ocupar mucho espacio en el documento, si quiere ver el JSON completo siga el enlace.
+> Este JSON ha sido recortado para no ocupar mucho espacio en el documento, si quiere ver el JSON completo siga el enlace.
 
 - [/provincias/{CODPROV}](https://www.el-tiempo.net/api/json/v2/provincias/[CODPROV])
-    - Utilizandoel método **GET** y enviando el parámetro **CODPROV** que es adquirido mediante la llamada al primer endpoint. 
+    - Utilizandoel método **GET** y enviando el parámetro **CODPROV** que es adquirido mediante la llamada al primer *endpoint*. 
 ~~~json
 {
    "title":"El tiempo en la provincia de Araba\/\u00c1lava",
@@ -287,14 +284,34 @@ La Interfaz que se ha creado para hacer las llamadas a los endpoints, utiliza la
 }
 ~~~
 
-Para pasar el json a clases se ha utilizado la web [jsonschema2pojo](https://www.jsonschema2pojo.org/). 
-Se ha utilizado la libreria **GSON** para parsear el .json recibido a las clases java necesarias, para ello se han de importar las dependencias en el *gradle*:
+Para pasar el *.json* a clases se ha utilizado la web [jsonschema2pojo](https://www.jsonschema2pojo.org/). 
+
+### elTiempoAPI Servicio Retrofit
+
+Se ha definido una clase que utiliza el patrón *Singelton* para generar una instancia del servicio de ***Retrofit2***, utilizando ***Gson*** como *converter* y  ***RxJava*** para definir el *Adapter*:
+
 ~~~java
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+public class eltiempoAPI {
+    private static Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://www.el-tiempo.net/api/json/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build();
+
+    private static Eltiempo service = retrofit.create(Eltiempo.class);
+
+    public static synchronized Eltiempo getInstance() {
+        if (service == null)
+            service = retrofit.create(Eltiempo.class);
+        return service;
+    }
+}
 ~~~
 
-### La interfaz retrofit:
+
+
+## La interfaz Retrofit:
+
 ~~~java
 public interface Eltiempo {
     @GET("home")
@@ -304,60 +321,13 @@ public interface Eltiempo {
     Observable <ExampleProv> getProv(@Path("CODPROV") String CODPROV);
 }
 ~~~
-Cómo podemos observar se implementan los dos endpoints mencionados.
+Se utiliza para realizar las llamadas HTTP a la API, cómo podemos observar se implementan los dos *endpoints* mencionados y la clase *Observable*.
 
-### IU:
-##### Se han definido dos fragments para gestionar la interfaz
+## IU:
+Se han definido dos *fragments* para gestionar la interfaz
 
-##### Main activity:
-~~~xml
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/contenedorFragments"
-        ></FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
-~~~
-```java
-public class MainActivity extends AppCompatActivity {
-    public static String id;
-    private List<Provincia> datos = new ArrayList<>();
-    private EltiempoAdapter adapter;
-
-    FragmentTransaction transaction;
-    Fragment fragmentListaProvincias, fragmentDetallesProvincia;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        fragmentListaProvincias = new FragmentListaProvincias();
-        fragmentDetallesProvincia = new FragmentDetallesProvincia();
-
-        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragments, fragmentListaProvincias).commit();
-    }
-
-    public void onClick(View view){
-        transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.contenedorFragments, fragmentDetallesProvincia).commit();
-        transaction.addToBackStack(null);
-        String a = Integer.toString(view.getId());
-        if(a.length()==1){
-            id = "0"+a;
-        }else id = a;
-    }
-}
-```
-Se ha utilizado el método OnClick para gestionar la transaccion entre vistas, parseando el numero entero a el valor necesario para que la API responda.
-#### Fragment Lista de provincias:
-Se ha definido un ***RecyclerView*** utilizando el patrón ***ViewHolder*** para que no se realizen tantas llamadas a la API y los datos queden guardados en la lista.
+### Fragment Lista de provincias:
+Se ha definido un ***RecyclerView*** utilizando el patrón ***ViewHolder*** para que no se realicen tantas llamadas a la API y los datos queden guardados en la lista.
 ~~~xml
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -413,7 +383,7 @@ public class FragmentListaProvincias extends Fragment {
     }
 }
 ~~~
-Como se puede ver en el código `private EltiempoAdapter adapter;` se utiliza una clase que funciona como adapter e implementa el patón ***ViewHolder***:
+Como se puede ver en el código `private EltiempoAdapter adapter;` se utiliza una clase que funciona como *adapter* e implementa el patón ***ViewHolder***:
 
 ~~~java
 public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHolder> {
@@ -450,7 +420,7 @@ public class EltiempoAdapter extends RecyclerView.Adapter<EltiempoAdapter.ViewHo
 }
 ~~~
 
-Esta clase utiliza el layout **Row** que implemeta un Botón:
+Esta clase utiliza el *layout* ***Row*** (`View mview = LayoutInflater.from(parent.getContext()).inflate(R.layout.row, parent, false);`) que implementa un Botón:
 ~~~xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -467,7 +437,7 @@ Esta clase utiliza el layout **Row** que implemeta un Botón:
         />
 </RelativeLayout>
 ~~~
-#### Fragment Detalles de provincias:
+### Fragment Detalles de provincias:
 ~~~java 
 public class FragmentDetallesProvincia extends Fragment {
 
@@ -525,4 +495,64 @@ public class FragmentDetallesProvincia extends Fragment {
 }
 ~~~
 
-Como mejoras pendientes quedaría dar un aspecto más amigable a la Interfaz de Usuario e implementar una vista entre medias de la carga de los datos (popup de carga o similar).
+Podemos observar que en ambas existe la función ` downloadData();`, esta función genera la petición *Retrofit* e introduce los datos en la variable *datos* para poder manipularlos posteriormente.
+
+## Main activity:
+
+~~~xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contenedorFragments"
+        ></FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+~~~
+```java
+public class MainActivity extends AppCompatActivity {
+    public static String id;
+    private List<Provincia> datos = new ArrayList<>();
+    private EltiempoAdapter adapter;
+
+    FragmentTransaction transaction;
+    Fragment fragmentListaProvincias, fragmentDetallesProvincia;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        fragmentListaProvincias = new FragmentListaProvincias();
+        fragmentDetallesProvincia = new FragmentDetallesProvincia();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.contenedorFragments, fragmentListaProvincias).commit();
+    }
+
+    public void onClick(View view){
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.contenedorFragments, fragmentDetallesProvincia).commit();
+        transaction.addToBackStack(null);
+        String a = Integer.toString(view.getId());
+        if(a.length()==1){
+            id = "0"+a;
+        }else id = a;
+    }
+}
+```
+Se ha utilizado el método *OnClick* para gestionar la transacción entre vistas, *parseando* el numero entero a el valor necesario para que la API responda.
+
+El *fragment* que se ha definido por defecto es la presentación del *RecycledView* de botones con el nombre de las provincias, pudiendo regresar a el desde el otro *fragment* tan solo con pulsar el botón atrás.
+
+## Mejoras a implementar:
+
+- [ ] Mejorar interfaz de usuario para ser más amigable.
+- [ ] Animación de carga mientras se espera a la presentación de los datos.
+- [ ] Insertar imágenes que correspondan al tiempo que hay en la provincia seleccionada. 
+------
+
+Los datos utilizados son propiedad de ©AEMET (Agencia Estatal de Meteorología).
