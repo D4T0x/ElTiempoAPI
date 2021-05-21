@@ -2,7 +2,7 @@
 
 ![Demo](https://github.com/D4T0x/ElTiempoAPI/blob/main/Demo.gif)
 
-El **TiempoEs** es una aplicación que nos permite ver la información del tiempo en las distintas provincias de España, tomando los datos de [el-tiempo.net](https://www.el-tiempo.net/api).
+El **TiempoEs** es una aplicación que nos permite ver la información del tiempo en las distintas provincias de España tomando los datos de [el-tiempo.net](https://www.el-tiempo.net/api).
 
 ## Dependencias:
 
