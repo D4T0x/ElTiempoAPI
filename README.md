@@ -321,10 +321,10 @@ public interface Eltiempo {
     Observable <ExampleProv> getProv(@Path("CODPROV") String CODPROV);
 }
 ~~~
-Se utiliza para realizar las llamadas HTTP a la API, cómo podemos observar se implementan los dos *endpoints* mencionados y la clase *Observable*.
+Se utiliza para realizar las llamadas HTTP a la API. Como podemos observar se implementan los dos *endpoints* mencionados y la clase *Observable*.
 
 ## IU:
-Se han definido dos *fragments* para gestionar la interfaz
+Se han definido dos *fragments* para gestionar la interfaz.
 
 ### Fragment Lista de provincias:
 Se ha definido un ***RecyclerView*** utilizando el patrón ***ViewHolder*** para que no se realicen tantas llamadas a la API y los datos queden guardados en la lista.
@@ -495,7 +495,7 @@ public class FragmentDetallesProvincia extends Fragment {
 }
 ~~~
 
-Podemos observar que en ambas existe la función ` downloadData();`, esta función genera la petición *Retrofit* e introduce los datos en la variable *datos* para poder manipularlos posteriormente.
+Podemos observar que en ambas existe la función `downloadData();`. Esta función genera la petición *Retrofit* e introduce los datos en la variable *datos* para poder manipularlos posteriormente.
 
 ## Main activity:
 
@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity {
 ```
 Se ha utilizado el método *OnClick* para gestionar la transacción entre vistas, *parseando* el numero entero a el valor necesario para que la API responda.
 
-El *fragment* que se ha definido por defecto es la presentación del *RecycledView* de botones con el nombre de las provincias, pudiendo regresar a el desde el otro *fragment* tan solo con pulsar el botón atrás.
+El *fragment* que se ha definido por defecto es la presentación del *RecycledView* de botones con el nombre de las provincias, pudiendo regresar a él desde el otro *fragment* tan solo con pulsar el botón atrás.
 
 ## Mejoras a implementar:
 
