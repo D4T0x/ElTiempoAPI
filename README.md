@@ -197,7 +197,7 @@ Se ha utilizado la API de la web [el-tiempo.net](https://www.el-tiempo.net/api),
    "keywords":"Previsi\u00f3n, meteorol\u00f3gica, tiempo, Espa\u00f1a, municipios, previsi\u00f3n del tiempo, previsi\u00f3n meteorol\u00f3gica"
 }
 ~~~
-> Este JSON ha sido recortado para no ocupar mucho espacio en el documento, si quiere ver el JSON completo siga el enlace.
+> Este JSON ha sido recortado para no ocupar mucho espacio en el documento. Si quiere ver el JSON completo siga el enlace.
 
 - [/provincias/{CODPROV}](https://www.el-tiempo.net/api/json/v2/provincias/[CODPROV])
     - Utilizandoel método **GET** y enviando el parámetro **CODPROV** que es adquirido mediante la llamada al primer *endpoint*. 
